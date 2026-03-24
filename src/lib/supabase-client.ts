@@ -72,7 +72,7 @@ export async function searchSimilarChunks(
       Authorization: `Bearer ${config.supabaseAnonKey}`,
     },
     body: JSON.stringify({
-      query_embedding: `[${queryEmbedding.join(",")}]`,
+      query_embedding: queryEmbedding,
       match_threshold: threshold,
       match_count: matchCount,
     }),
@@ -103,7 +103,7 @@ export async function insertChunk(
     },
     body: JSON.stringify({
       contenido,
-      embedding: `[${embedding.join(",")}]`,
+      embedding,
       metadata,
     }),
   });

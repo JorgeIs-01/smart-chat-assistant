@@ -13,12 +13,12 @@ export const config = {
   supabaseAnonKey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "tu-anon-key",
 
   // --- OLLAMA (IA LOCAL) ---
-  // Endpoint de tu instancia de Ollama
-  ollamaUrl: "http://localhost:11434",
+  // Endpoint de tu instancia de Ollama (o URL de servidor proxy)
+  ollamaUrl: import.meta.env.VITE_OLLAMA_URL || "http://localhost:11434",
   // Modelo para generar embeddings (768 dimensiones)
-  embeddingModel: "nomic-embed-text",
+  embeddingModel: import.meta.env.VITE_OLLAMA_EMBEDDING_MODEL || "nomic-embed-text",
   // Modelo para generar respuestas
-  chatModel: "llama3.1",
+  chatModel: import.meta.env.VITE_OLLAMA_CHAT_MODEL || "llama3.1",
 
   // --- ADMIN ---
   // Contraseña para acceder al panel de administración

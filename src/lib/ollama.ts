@@ -32,12 +32,13 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       model: config.embeddingModel,
-      prompt: text,
+      input: text,
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`Error generando embedding: ${response.statusText}`);
+    const errorText = await response.text();
+    throw new Error(`Error generando embedding: ${response.statusText} - ${errorText}`);
   }
 
   const data: EmbeddingResponse = await response.json();
@@ -101,8 +102,13 @@ export async function generateChatResponse(
  */
 export async function checkOllamaHealth(): Promise<boolean> {
   try {
-    const response = await fetch(`${config.ollamaUrl}/api/tags`);
-    return response.ok;
+    // Endpoint oficial de salud de Ollama
+    const response = await fetch(`${config.ollamaUrl}/api/health`);
+    if (response.ok) return true;
+
+    // Fallback histórico
+    const tagsResponse = await fetch(`${config.ollamaUrl}/api/tags`);
+    return tagsResponse.ok;
   } catch {
     return false;
   }
